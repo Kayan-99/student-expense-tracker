@@ -1,0 +1,240 @@
+/* General */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    color: #1f2937;
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    background: #1f4e79;
+    color: white;
+    padding: 35px 20px;
+    margin-bottom: 30px;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: auto;
+}
+
+header h1 {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+header p {
+    opacity: 0.9;
+}
+
+
+/* Dashboard */
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.card h3 {
+    color: #6b7280;
+    margin-bottom: 12px;
+    font-size: 16px;
+}
+
+.card p {
+    font-size: 25px;
+    font-weight: bold;
+    color: #1f4e79;
+}
+
+
+/* Add Expense */
+.expense-form-section,
+.expenses-section {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.expense-form-section h2,
+.expenses-section h2 {
+    margin-bottom: 20px;
+}
+
+
+/* Form */
+#expenseForm {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 7px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group select,
+#filterCategory {
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+#filterCategory:focus {
+    border-color: #1f4e79;
+}
+
+.add-btn {
+    grid-column: span 2;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    background: #1f4e79;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.add-btn:hover {
+    background: #163a5c;
+}
+
+
+/* Expenses Header */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-header p {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+
+/* Table */
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #f3f4f6;
+}
+
+th,
+td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+th {
+    font-size: 14px;
+    color: #4b5563;
+}
+
+td {
+    font-size: 14px;
+}
+
+
+/* Delete Button */
+.delete-btn {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 7px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background: #dc2626;
+}
+
+
+/* Empty Message */
+.empty-message {
+    text-align: center;
+    padding: 30px;
+    color: #9ca3af;
+}
+
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    #expenseForm {
+        grid-template-columns: 1fr;
+    }
+
+    .add-btn {
+        grid-column: span 1;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    header h1 {
+        font-size: 26px;
+    }
+
+    .expense-form-section,
+    .expenses-section {
+        padding: 20px;
+    }
+}

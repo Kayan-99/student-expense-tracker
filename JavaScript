@@ -1,0 +1,148 @@
+// Get elements from HTML
+const expenseForm = document.getElementById("expenseForm");
+const expenseName = document.getElementById("expenseName");
+const expenseAmount = document.getElementById("expenseAmount");
+const expenseCategory = document.getElementById("expenseCategory");
+const expenseDate = document.getElementById("expenseDate");
+
+const expenseList = document.getElementById("expenseList");
+const filterCategory = document.getElementById("filterCategory");
+const emptyMessage = document.getElementById("emptyMessage");
+
+const totalExpenses = document.getElementById("totalExpenses");
+const expenseCount = document.getElementById("expenseCount");
+const highestExpense = document.getElementById("highestExpense");
+
+
+// Load expenses from Local Storage
+let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
+
+
+// Add Expense
+expenseForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const name = expenseName.value.trim();
+    const amount = Number(expenseAmount.value);
+    const category = expenseCategory.value;
+    const date = expenseDate.value;
+
+    if (name === "" || amount <= 0 || category === "" || date === "") {
+        alert("Please enter valid expense information.");
+        return;
+    }
+
+    const expense = {
+        id: Date.now(),
+        name: name,
+        amount: amount,
+        category: category,
+        date: date
+    };
+
+    expenses.push(expense);
+
+    saveExpenses();
+    displayExpenses();
+
+    expenseForm.reset();
+});
+
+
+// Save expenses
+function saveExpenses() {
+    localStorage.setItem("expenses", JSON.stringify(expenses));
+}
+
+
+// Display Expenses
+function displayExpenses() {
+
+    expenseList.innerHTML = "";
+
+    const selectedCategory = filterCategory.value;
+
+    const filteredExpenses =
+        selectedCategory === "All"
+            ? expenses
+            : expenses.filter(
+                expense => expense.category === selectedCategory
+            );
+
+    if (filteredExpenses.length === 0) {
+        emptyMessage.style.display = "block";
+    } else {
+        emptyMessage.style.display = "none";
+    }
+
+    filteredExpenses.forEach(function (expense) {
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${expense.name}</td>
+
+            <td>${expense.category}</td>
+
+            <td>${expense.date}</td>
+
+            <td>${expense.amount.toFixed(2)} SAR</td>
+
+            <td>
+                <button
+                    class="delete-btn"
+                    onclick="deleteExpense(${expense.id})">
+                    Delete
+                </button>
+            </td>
+        `;
+
+        expenseList.appendChild(row);
+    });
+
+    updateDashboard();
+}
+
+
+// Delete Expense
+function deleteExpense(id) {
+
+    expenses = expenses.filter(function (expense) {
+        return expense.id !== id;
+    });
+
+    saveExpenses();
+    displayExpenses();
+}
+
+
+// Update Dashboard
+function updateDashboard() {
+
+    const total = expenses.reduce(function (sum, expense) {
+        return sum + expense.amount;
+    }, 0);
+
+    const count = expenses.length;
+
+    const highest =
+        expenses.length > 0
+            ? Math.max(...expenses.map(expense => expense.amount))
+            : 0;
+
+    totalExpenses.textContent = `${total.toFixed(2)} SAR`;
+
+    expenseCount.textContent = count;
+
+    highestExpense.textContent = `${highest.toFixed(2)} SAR`;
+}
+
+
+// Filter Expenses
+filterCategory.addEventListener("change", function () {
+    displayExpenses();
+});
+
+
+// Display saved expenses when page loads
+displayExpenses();
