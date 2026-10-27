@@ -90,10 +90,16 @@ function displayExpenses() {
 
             <td>
                 <button
-                    class="delete-btn"
-                    onclick="deleteExpense(${expense.id})">
-                    Delete
-                </button>
+    class="edit-btn"
+    onclick="editExpense(${expense.id})">
+    Edit
+</button>
+
+ <button
+    class="delete-btn"
+    onclick="deleteExpense(${expense.id})">
+    Delete
+</button>
             </td>
         `;
 
@@ -118,7 +124,22 @@ function deleteExpense(id) {
 
 // Update Dashboard
 function updateDashboard() {
+// Update category totals
+const categories = {
+    Food: "foodTotal",
+    Transport: "transportTotal",
+    Education: "educationTotal",
+    Other: "otherTotal"
+};
 
+for (const category in categories) {
+    const categoryTotal = expenses
+        .filter(expense => expense.category === category)
+        .reduce((sum, expense) => sum + expense.amount, 0);
+
+    document.getElementById(categories[category]).textContent =
+        `${categoryTotal.toFixed(2)} SAR`;
+}
     const total = expenses.reduce(function (sum, expense) {
         return sum + expense.amount;
     }, 0);
@@ -146,3 +167,29 @@ filterCategory.addEventListener("change", function () {
 
 // Display saved expenses when page loads
 displayExpenses();
+// Edit Expense
+function editExpense(id) {
+    const expense = expenses.find(item => item.id === id);
+
+    if (!expense) return;
+
+    const newName = prompt("Enter expense name:", expense.name);
+    if (newName === null) return;
+
+    const newAmount = prompt("Enter expense amount:", expense.amount);
+    if (newAmount === null) return;
+
+    const name = newName.trim();
+    const amount = Number(newAmount);
+
+    if (name === "" || !Number.isFinite(amount) || amount <= 0) {
+        alert("Please enter a valid name and amount.");
+        return;
+    }
+
+    expense.name = name;
+    expense.amount = amount;
+
+    saveExpenses();
+    displayExpenses();
+}
